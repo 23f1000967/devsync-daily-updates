@@ -1,0 +1,29 @@
+name: Daily Update by 23f1000967@ds.study.iitm.ac.in
+
+on:
+  schedule:
+    - cron: "30 2 * * *"   # Runs every day at 2:30 AM UTC
+  workflow_dispatch:        # So you can test manually
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # REQUIRED STEP — must include your email in the NAME
+      - name: Step by 23f1000967@ds.study.iitm.ac.in
+        run: |
+          echo "Daily update running..."
+          date=$(date +'%Y-%m-%d')
+          echo "$date — Automated daily update" >> update-log.txt
+
+      - name: Commit changes
+        run: |
+          git config user.name "DevSync Bot"
+          git config user.email "23f1000967@ds.study.iitm.ac.in"
+          git add update-log.txt
+          git commit -m "Daily update: $(date +'%Y-%m-%d') [skip ci]" || echo "No changes to commit"
+          git push
